@@ -58,8 +58,8 @@ results = []
 
 # 處理每年的每週資料
 for year in range(2016, 2020):
-    for week in range(1, 53):
-        grid_path = f'./grid_csv_week/{year}_week_{week}.csv'
+    for month in range(1, 13):
+        grid_path = f'./grid_csv_month/{year}_month_{month}.csv'
         if not os.path.exists(grid_path):
             continue
 
@@ -97,21 +97,21 @@ for year in range(2016, 2020):
             # print(f'{town} - 有效格點: {len(group)} / 鄉鎮內總有效格點: {total_cells} → 覆蓋率: {coverage:.2f}')
 
             if coverage >= 0.5:
-                avg_val = group['value'].mean() * 7
+                avg_val = group['value'].mean() * 30
                 results.append({
                     'town': town,
                     'year': year,
-                    'week': week,
+                    'month': month,
                     'PM2.5': round(avg_val, 2)
                 })
 
-        print(f'{year} 年第 {week} 周資料計算完成')
+        print(f'{year} 年第 {month} 月資料計算完成')
 
 
 # 輸出 CSV
 if results:
     result_df = pd.DataFrame(results)
-    result_df.to_csv("PM25_weekly_by_town.csv", index=False, encoding="utf-8-sig")
-    print("✅ 輸出完成：PM25_weekly_by_town.csv")
+    result_df.to_csv("PM25_monthly_by_town.csv", index=False, encoding="utf-8-sig")
+    print("✅ 輸出完成：PM25_monthly_by_town.csv")
 else:
     print("⚠️ 無有效結果輸出")
